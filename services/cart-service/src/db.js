@@ -1,14 +1,14 @@
-{
-  "name": "cart-service",
-  "version": "1.0.0",
-  "scripts": { "start": "node src/index.js", "dev": "nodemon src/index.js" },
-  "dependencies": {
-    "express": "^4.18.2",
-    "mysql2": "^3.6.5",
-    "jsonwebtoken": "^9.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "helmet": "^7.1.0"
-  },
-  "devDependencies": { "nodemon": "^3.0.2" }
-}
+const mysql = require('mysql2/promise');
+
+const db = mysql.createPool({
+  host: process.env.DB_HOST || 'localhost',
+  user: process.env.DB_USER || 'root',
+  password: process.env.DB_PASSWORD || '',
+  database: process.env.DB_NAME || 'cart_db',
+  port: process.env.DB_PORT || 3306,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0
+});
+
+module.exports = db;
