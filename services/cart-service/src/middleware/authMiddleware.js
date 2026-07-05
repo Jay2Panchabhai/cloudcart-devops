@@ -1,14 +1,30 @@
-{
-  "name": "cart-service",
-  "version": "1.0.0",
-  "scripts": { "start": "node src/index.js", "dev": "nodemon src/index.js" },
-  "dependencies": {
-    "express": "^4.18.2",
-    "mysql2": "^3.6.5",
-    "jsonwebtoken": "^9.0.2",
-    "cors": "^2.8.5",
-    "dotenv": "^16.3.1",
-    "helmet": "^7.1.0"
-  },
-  "devDependencies": { "nodemon": "^3.0.2" }
-}
+const jwt = require("jsonwebtoken");
+
+const JWT_SECRET =
+  process.env.JWT_SECRET || "cloudcart-super-secret-key-change-in-production";
+
+const authMiddleware = (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+
+  if (!authHeader) {
+    return res.status(401).json({ error: "No authorization header provided" });
+  }
+
+  // JWT format: "Bearer <token>"
+  const token = authHeader.startsWith("Bearer ")
+    ? authHeader.slice(7)
+    : authHeader;
+
+  try {
+    const decoded = jwt.verify(token, JWT_SECRET);
+    req.user = decoded; // { userId, email, iat, exp }
+    next();
+  } catch (err) {
+    if (err.name === "TokenExpiredError") {
+      return res.status(401).json({ error: "Token expired" });
+    }
+    return res.status(403).json({ error: "Invalid token" });
+  }
+};
+
+module.exports = authMiddleware;
