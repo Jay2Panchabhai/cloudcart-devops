@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Orders from "./pages/Orders";
 
+
 // PrivateRoute: Redirect to login if not authenticated
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
