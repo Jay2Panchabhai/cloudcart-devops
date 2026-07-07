@@ -1,3 +1,6 @@
+-- CloudCart Database Schema
+-- Run this once to create all tables
+
 USE cloudcart;
 
 CREATE TABLE IF NOT EXISTS users (
@@ -37,7 +40,13 @@ CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
     total_amount DECIMAL(10, 2) NOT NULL,
-    status ENUM('pending', 'confirmed', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
+    status ENUM(
+        'pending',
+        'confirmed',
+        'shipped',
+        'delivered',
+        'cancelled'
+    ) DEFAULT 'pending',
     shipping_address TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(id),
