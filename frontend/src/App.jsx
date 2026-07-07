@@ -1,9 +1,4 @@
-import {
-  Routes,
-  Route,
-  Navigate
-} from 'react-router-dom'
-
+import { Routes, Route, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
 import Navbar from './components/Navbar'
 import Home from './pages/Home'
@@ -18,16 +13,10 @@ function PrivateRoute({ children }) {
   const { user, loading } = useAuth()
 
   if (loading) {
-    return (
-      <div className="loading">
-        Loading...
-      </div>
-    )
+    return <div className="loading">Loading...</div>
   }
 
-  return user
-    ? children
-    : <Navigate to="/login" />
+  return user ? children : <Navigate to="/login" />
 }
 
 function App() {
@@ -37,10 +26,7 @@ function App() {
 
       <main className="main-content">
         <Routes>
-          <Route
-            path="/"
-            element={<Home />}
-          />
+          <Route path="/" element={<Home />} />
 
           <Route
             path="/products"

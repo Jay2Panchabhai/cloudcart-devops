@@ -1,24 +1,16 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect
-} from 'react'
+import { createContext, useContext, useState, useEffect } from 'react'
 
 const AuthContext = createContext(null)
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null)
-
   const [token, setToken] = useState(
     localStorage.getItem('cloudcart_token')
   )
-
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const storedUser =
-      localStorage.getItem('cloudcart_user')
+    const storedUser = localStorage.getItem('cloudcart_user')
 
     if (storedUser && token) {
       setUser(JSON.parse(storedUser))
@@ -31,11 +23,7 @@ export function AuthProvider({ children }) {
     setUser(userData)
     setToken(authToken)
 
-    localStorage.setItem(
-      'cloudcart_token',
-      authToken
-    )
-
+    localStorage.setItem('cloudcart_token', authToken)
     localStorage.setItem(
       'cloudcart_user',
       JSON.stringify(userData)
@@ -52,18 +40,11 @@ export function AuthProvider({ children }) {
 
   return (
     <AuthContext.Provider
-      value={{
-        user,
-        token,
-        login,
-        logout,
-        loading
-      }}
+      value={{ user, token, login, logout, loading }}
     >
       {children}
     </AuthContext.Provider>
   )
 }
 
-export const useAuth = () =>
-  useContext(AuthContext)
+export const useAuth = () => useContext(AuthContext)
